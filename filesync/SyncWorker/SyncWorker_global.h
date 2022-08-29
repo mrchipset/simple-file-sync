@@ -1,0 +1,12 @@
+#ifndef SYNCWORKER_GLOBAL_H
+#define SYNCWORKER_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(SYNCWORKER_LIBRARY)
+#  define SYNCWORKER_EXPORT Q_DECL_EXPORT
+#else
+#  define SYNCWORKER_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // SYNCWORKER_GLOBAL_H
