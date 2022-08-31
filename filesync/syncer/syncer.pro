@@ -11,12 +11,17 @@ DESTDIR     = $$OUT_PWD/../bin
 
 SOURCES += \
     SyncServiceFinder.cc \
+    SyncServiceProvider.cc \
+    SyncerRunnable.cc \
     main.cpp \
     MainWindow.cc
 
 HEADERS += \
     MainWindow.h \
-    SyncServiceFinder.h
+    SyncServiceFinder.h \
+    SyncServiceProvider.h \
+    SyncerCommon.h \
+    SyncerRunnable.h
 
 FORMS += \
     MainWindow.ui

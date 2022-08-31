@@ -2,7 +2,10 @@
 #include "ui_MainWindow.h"
 
 #include <QDebug>
-#include "AvailablePortHelper.h"
+#include <QThreadPool>
+#include <QStringList>
+
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -10,17 +13,18 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QVector<uint16_t> ports;
-    AvailablePortHelper::GetAvailableTcpPorts(50000, 60000, ports);
-    qDebug() << ports.size();
-//    qDebug() << ports;
+    mProvider = new SyncServiceProvider(this);
+    mProvider->createService();
+    mFinder = new SyncServiceFinder(this);
+    QThreadPool::globalInstance()->start(mFinder);
+    connect(mFinder, &SyncServiceFinder::searchFinished, this, &MainWindow::onSearchFinished);
 
-    mSocket = new QUdpSocket(this);
-
-    mTimer.setInterval(1000);
-    mTimer.start();
-    connect(&mTimer, &QTimer::timeout, this, &MainWindow::onTimeout);
-
+    mFindingDlg = new QProgressDialog(this);
+    mFindingDlg->setWindowFlag(Qt::WindowContextHelpButtonHint, false);
+    mFindingDlg->setCancelButton(nullptr);
+    mFindingDlg->setLabelText(tr("Finding syncing service..."));
+    mFindingDlg->setRange(0, 0);
+    mFindingDlg->show();
 }
 
 MainWindow::~MainWindow()
@@ -28,12 +32,39 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::onTimeout()
+void MainWindow::onSearchFinished()
 {
-    QString header = "FIND-HEADE-MAGIC-1234";
-    uint16_t port = 50000;
-    QNetworkDatagram datagram(header.toLocal8Bit(), QHostAddress::Broadcast, port);
-    mSocket->writeDatagram(datagram);
-    mSocket->waitForBytesWritten();
+    ui->CB_DEST_SERVER->clear();
+    mFindingDlg->close();
+    if (!mFinder->isFind()) {
+        QMessageBox::information(this, tr("Error"), tr("Cound not found syncing service in local network."));
+    } else {
+        mEndPoints = mFinder->getFoundEndPoints();
+        QStringList strHosts;
+        for(auto& endpoint : mEndPoints) {
+            qDebug() << endpoint.Host.protocol() << (endpoint.Host != QHostAddress::LocalHost);
+            strHosts << QString("%1:%2").arg(endpoint.Host.toString()).arg(endpoint.Port);
+        }
+        ui->CB_DEST_SERVER->addItems(strHosts);
+    }
+}
+
+void MainWindow::on_PB_CONNECT_clicked()
+{
+    // TODO create a TCP socket;
+}
+
+
+void MainWindow::on_PB_REFRESH_clicked()
+{
+    ui->PB_REFRESH->setEnabled(false);
+    mFindingDlg->show();
+    if (!mFinder->isRunning()) {
+        QThreadPool::globalInstance()->start(mFinder);
+    }
+
+    QTimer::singleShot(3000, [&](){
+        ui->PB_REFRESH->setEnabled(true);
+    });
 }
 

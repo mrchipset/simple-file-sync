@@ -70,7 +70,7 @@ bool AvailablePortHelper::GetAvailableTcpPorts(uint16_t portLower, uint16_t port
     for (auto& port : usedPorts) {
         ports.removeOne(port);
     }
-    return true;
+    return ports.size() > 0;
 }
 
 bool AvailablePortHelper::GetAvailableUdpPorts(uint16_t portLower, uint16_t portUpper, QVector<uint16_t> &ports)
@@ -85,6 +85,27 @@ bool AvailablePortHelper::GetAvailableUdpPorts(uint16_t portLower, uint16_t port
     for (auto& port : usedPorts) {
         ports.removeOne(port);
     }
-    return true;
+    return ports.size() > 0;
+}
+
+bool AvailablePortHelper::GetAvailablePorts(uint16_t portLower, uint16_t portUpper, QVector<uint16_t> &ports)
+{
+    ports.resize(portUpper - portLower + 1);
+    for (uint16_t i = 0; i < ports.size(); ++i) {
+        ports[i] = i + portLower;
+    }
+
+    QVector<uint16_t> usedPorts;
+    GetAllTcpConnectionPorts(usedPorts);
+    for (auto& port : usedPorts) {
+        ports.removeOne(port);
+    }
+
+    GetAllUdpConnectionPorts(usedPorts);
+    for (auto& port : usedPorts) {
+        ports.removeOne(port);
+    }
+
+    return ports.size() > 0;
 }
 

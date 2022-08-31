@@ -16,6 +16,7 @@ public:
 
     static bool GetAvailableTcpPorts(uint16_t portLower, uint16_t portUpper, QVector<uint16_t>& ports);
     static bool GetAvailableUdpPorts(uint16_t portLower, uint16_t portUpper, QVector<uint16_t>& ports);
+    static bool GetAvailablePorts(uint16_t portLower, uint16_t portUpper, QVector<uint16_t>& ports);
 
 };
 

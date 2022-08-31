@@ -1,5 +1,5 @@
 QT -= gui
-QT += network
+QT += core network
 
 TEMPLATE = lib
 DEFINES += SYNCWORKER_LIBRARY
@@ -13,10 +13,20 @@ DESTDIR     = $$OUT_PWD/../bin
 
 SOURCES += \
     AvailablePortHelper.cc \
+    SyncManager.cc \
+    SyncServerWorker.cc \
+    SyncTcpServer.cc \
+    SyncTransactionObject.cc \
+    SyncTransactionTaskWorker.cc \
     SyncWorker.cc
 
 HEADERS += \
     AvailablePortHelper.h \
+    SyncManager.h \
+    SyncServerWorker.h \
+    SyncTcpServer.h \
+    SyncTransactionObject.h \
+    SyncTransactionTaskWorker.h \
     SyncWorker_global.h \
     SyncWorker.h
 

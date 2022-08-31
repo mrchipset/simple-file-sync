@@ -1,16 +1,16 @@
-#include "SyncWorker.h"
+#include "SyncerRunnable.h"
+#include <QMutexLocker>
 
-SyncWorker::SyncWorker()
-    : QRunnable()
+SyncerRunnable::SyncerRunnable() : QRunnable()
 {
 }
 
-bool SyncWorker::requestInterruption()
+bool SyncerRunnable::requestInterruption()
 {
     return mInterrupt.testAndSetOrdered(0, 1);
 }
 
-bool SyncWorker::wait(QDeadlineTimer deadline)
+bool SyncerRunnable::wait(QDeadlineTimer deadline)
 {
     QMutexLocker lk(&mMutex);
     if (!isRunning()) {
@@ -20,7 +20,7 @@ bool SyncWorker::wait(QDeadlineTimer deadline)
     }
 }
 
-void SyncWorker::run()
+void SyncerRunnable::run()
 {
     QMutexLocker lk(&mMutex);
     mRunning = true;

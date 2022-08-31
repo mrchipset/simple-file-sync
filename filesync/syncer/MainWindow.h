@@ -3,8 +3,11 @@
 
 #include <QMainWindow>
 #include <QTimer>
-#include <QUdpSocket>
-#include <QNetworkDatagram>
+#include <QProgressDialog>
+
+#include "SyncServiceFinder.h"
+#include "SyncServiceProvider.h"
+#include "SyncManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,10 +23,17 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QTimer mTimer;
-    QUdpSocket* mSocket;
+    SyncServiceProvider* mProvider;
+    SyncServiceFinder* mFinder;
+    SyncManager* mSyncManager;
 
+    QProgressDialog* mFindingDlg;
+    QVector<SyncServiceFinder::EndPoint> mEndPoints;
 private Q_SLOTS:
-    void onTimeout();
+    void onSearchFinished();
+
+    void on_PB_CONNECT_clicked();
+    void on_PB_REFRESH_clicked();
+
 };
 #endif // MAINWINDOW_H

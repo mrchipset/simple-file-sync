@@ -1,16 +1,15 @@
-#ifndef SYNCWORKER_H
-#define SYNCWORKER_H
+#ifndef SYNCERRUNNABLE_H
+#define SYNCERRUNNABLE_H
 
-#include "SyncWorker_global.h"
 #include <QRunnable>
 #include <QAtomicInt>
 #include <QMutex>
 #include <QWaitCondition>
 
-class SYNCWORKER_EXPORT SyncWorker : public QRunnable
+class SyncerRunnable : public QRunnable
 {
 public:
-    SyncWorker();
+    SyncerRunnable();
 
     bool requestInterruption();
     inline bool isInterruptionRequested() const { return static_cast<int>(mInterrupt); }
@@ -27,7 +26,4 @@ protected:
     virtual void worker() = 0;
 };
 
-
-
-
-#endif // SYNCWORKER_H
+#endif // SYNCERRUNNABLE_H
