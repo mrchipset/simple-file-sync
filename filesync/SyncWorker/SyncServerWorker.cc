@@ -1,6 +1,8 @@
 #include "SyncServerWorker.h"
 #include <QDataStream>
 #include <QThread>
+#include "SyncTransactionTaskWorker.h"
+
 static constexpr int WAIT_READ_RETRY_LIMIT = 3;
 static constexpr int TRANSACTION_RETRY_LIMIT = 5;
 static constexpr int WAIT_READ_READY_TIMEOUT = 100;
@@ -70,6 +72,7 @@ void SyncServerWorker::worker()
         return;
     }
 
-    // TODO push the task object to a unique queue worker
-
+    // push the task object to a queue worker
+    SyncTransactionTaskWorker* taskWorker = SyncTransactionTaskWorker::GetInstance();
+    taskWorker->doTaskWork(object);
 }

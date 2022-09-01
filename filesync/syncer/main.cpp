@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+#if 0
     QString path = QDir::temp().absoluteFilePath("SyncerSingleLock.lock");
     QLockFile lockFile(path);
     if (lockFile.tryLock(100)) {
@@ -20,4 +21,9 @@ int main(int argc, char *argv[])
        QTimer::singleShot(50, &a, &QApplication::quit);
        return a.exec();
     }
+#else
+    MainWindow w;
+    w.show();
+    return a.exec();
+#endif
 }

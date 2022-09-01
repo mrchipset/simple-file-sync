@@ -51,7 +51,7 @@ void SyncServiceProvider::onDatagramPending()
         } else {
             QString received(datagram);
             if (received == FINDER_HEADER_DATAGRAM) {
-                if (host == QHostAddress::LocalHost || host.protocol() != QAbstractSocket::IPv4Protocol) {
+                if (host == QHostAddress::LocalHost) {
                     continue;
                 }
                 QNetworkDatagram _datagram(PROVIDER_HEADER_DATAGRAM.toLocal8Bit(), host, port);

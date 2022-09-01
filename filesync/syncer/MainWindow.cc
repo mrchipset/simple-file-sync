@@ -7,6 +7,7 @@
 
 #include <QMessageBox>
 
+#include "SyncFilesystemWatcher.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
     mFindingDlg->setLabelText(tr("Finding syncing service..."));
     mFindingDlg->setRange(0, 0);
     mFindingDlg->show();
+
+    SyncFilesystemWatcher* watcher = new SyncFilesystemWatcher(this);
+    watcher->setWatchPath("D:/tmp");
 }
 
 MainWindow::~MainWindow()

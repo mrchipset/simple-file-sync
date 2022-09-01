@@ -16,6 +16,7 @@ struct SYNCWORKER_EXPORT SyncTransactionObject
     SyncTask task;
     QString path;
     QByteArray buffer;
+    QByteArray hash;
 };
 
 
