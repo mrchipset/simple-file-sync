@@ -25,12 +25,12 @@ QString SyncService::rootPath() const
     return mRootPath;
 }
 
-void SyncService::setServerAddr(const QString &server)
+void SyncService::setServerAddr(const QHostAddress &server)
 {
     mServerAddr = server;
 }
 
-QString SyncService::serverAddr() const
+QHostAddress SyncService::serverAddr() const
 {
     return mServerAddr;
 }

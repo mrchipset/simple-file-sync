@@ -7,6 +7,7 @@
 #include <QThread>
 #include <QThreadPool>
 #include <QTcpSocket>
+#include <QHostAddress>
 
 #include "SyncFilesystemWatcher.h"
 #include "SyncWorker.h"
@@ -21,8 +22,8 @@ public:
     void setRootPath(const QString& path);
     QString rootPath() const;
 
-    void setServerAddr(const QString& server);
-    QString serverAddr() const;
+    void setServerAddr(const QHostAddress& server);
+    QHostAddress serverAddr() const;
 
     void setPort(int port);
     int port() const;
@@ -34,7 +35,7 @@ private:
     SyncFilesystemWatcher* mFilesystemWatcher;
     SyncTransactionTaskCreator* mTaskCreator;
     QString mRootPath;
-    QString mServerAddr;
+    QHostAddress mServerAddr;
     QThreadPool mPool;
     int mPort;
     bool mStart;

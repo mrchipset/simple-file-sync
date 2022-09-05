@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QThreadPool>
 #include <QStringList>
-
+#include <QFileDialog>
 #include <QMessageBox>
 
 #include "SyncFilesystemWatcher.h"
@@ -56,6 +56,11 @@ void MainWindow::onSearchFinished()
 void MainWindow::on_PB_CONNECT_clicked()
 {
     // TODO create a TCP socket;
+    int id = ui->CB_DEST_SERVER->currentIndex();
+    auto endpoint = mEndPoints.at(id);
+    mSyncService->setServerAddr(endpoint.Host);
+    mSyncService->setPort(endpoint.Port);
+    mSyncService->start();
 }
 
 
@@ -70,5 +75,17 @@ void MainWindow::on_PB_REFRESH_clicked()
     QTimer::singleShot(3000, [&](){
         ui->PB_REFRESH->setEnabled(true);
     });
+}
+
+
+void MainWindow::on_PB_SEL_FOLDER_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory(this, tr("Select a directory to sync"), QDir::currentPath());
+    if (path.isEmpty()) {
+        return;
+    }
+
+    ui->lineEdit->setText(path);
+    mSyncService->setRootPath(path);
 }
 

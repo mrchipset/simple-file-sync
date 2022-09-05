@@ -36,5 +36,6 @@ private Q_SLOTS:
     void on_PB_CONNECT_clicked();
     void on_PB_REFRESH_clicked();
 
+    void on_PB_SEL_FOLDER_clicked();
 };
 #endif // MAINWINDOW_H
