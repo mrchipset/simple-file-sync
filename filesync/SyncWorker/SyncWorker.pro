@@ -20,6 +20,7 @@ SOURCES += \
     ReadDirectoryChanges/ReadDirectoryServer/CompletionRoutineServer.cpp \
     ReadDirectoryChanges/ReadDirectoryServer/IoCompletionPortServer.cpp \
     ReadDirectoryChanges/ReadDirectoryServer/ReadDirectoryServer.cpp \
+    SyncClientWorker.cc \
     SyncFilesystemWatcher.cc \
     SyncManager.cc \
     SyncServerWorker.cc \
@@ -43,6 +44,7 @@ HEADERS += \
     ReadDirectoryChanges/Util/ThreadSafeQueue.h \
     ReadDirectoryChanges/Util/auto_release.h \
     ReadDirectoryChanges/stdafx.h \
+    SyncClientWorker.h \
     SyncFilesystemWatcher.h \
     SyncManager.h \
     SyncServerWorker.h \

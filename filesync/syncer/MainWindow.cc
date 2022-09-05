@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     mFindingDlg->setRange(0, 0);
     mFindingDlg->show();
 
-    SyncFilesystemWatcher* watcher = new SyncFilesystemWatcher(this);
-    watcher->setWatchPath("D:/tmp");
+    mSyncService = new SyncService(this);
+    mSyncService->setRootPath("D:/tmp");
 }
 
 MainWindow::~MainWindow()
